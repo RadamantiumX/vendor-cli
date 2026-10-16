@@ -13,3 +13,11 @@ export class ConsoleError extends Error {
 export class NodeChildProcessError extends Error {
   override name = "NodeChildProcessError";
 }
+
+export class NodeReadLineError extends Error {
+  override name = "NodeReadLineError";
+}
+
+export class DefaultError extends Error {
+  override name = "DefaultError";
+}

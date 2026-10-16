@@ -1,6 +1,6 @@
 // eslint-disable
 import { it, describe, expectTypeOf } from "vitest";
-import { colorConsole } from "../../console/colors";
+import { colorConsole } from "#main-dev/utils/colors";
 
 describe("colorConsole", () => {
   it("should receive correct arguments", () => {

@@ -1,6 +1,5 @@
 import colors from "ansi-colors";
-import type { State } from "../types";
-import { ConsoleError } from "../common/errors";
+import { ConsoleError } from "../utils/errors";
 
 /**
  * Console Printer in fancy colors, depending of each case
@@ -8,7 +7,7 @@ import { ConsoleError } from "../common/errors";
  * @param {State} state Constrain only for 3 options
  * @returns {void}
  */
-
+export type State = "success" | "loading" | "exit" | "error" | "default";
 export function colorConsole(message: string, state: State): void {
   try {
     switch (state) {
@@ -26,7 +25,7 @@ export function colorConsole(message: string, state: State): void {
         console.log(colors.bgRed(message));
         break;
       default:
-        console.log(colors.bgWhite(message));
+        console.log(colors.yellowBright(message));
     }
     return;
   } catch (error) {
