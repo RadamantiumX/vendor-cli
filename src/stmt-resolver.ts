@@ -12,9 +12,9 @@ function groupingConfigNormalized(
   answersWs: AnswerArray[],
   answersDev: AnswerArray[] | [],
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const grouping = Object.groupBy(
     [...answersWs, ...answersDev],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (answ: any) => answ[1],
   );
   const normalized = { ...grouping };
