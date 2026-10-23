@@ -1,6 +1,7 @@
 import ansiColors from "ansi-colors";
 import { Separator } from "@inquirer/prompts";
 import { PromptError } from "./utils/errors";
+import { FLAG_OPTIONS } from "./utils/constants";
 import type { Choices, CheckBoxAnswer } from "./types/index";
 
 /**
@@ -21,6 +22,16 @@ export const initialChoices = [
   },
 ];
 
+export const filterOptionsChoices = (pkgMng: string): Choices[] => {
+  const choiceArr = [];
+  for (const [key, value] of Object.entries(
+    FLAG_OPTIONS[pkgMng.toUpperCase() as keyof typeof FLAG_OPTIONS],
+  )) {
+    choiceArr.push({ name: key, value: [value], description: value });
+  }
+
+  return choiceArr;
+};
 export const flagChoices = {
   npm: [
     {
