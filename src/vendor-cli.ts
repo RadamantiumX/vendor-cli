@@ -11,7 +11,7 @@ import {
   isValidAmountOfChoices,
   combineArrayChoices,
   initialChoices,
-  flagChoices,
+  filterOptionsChoices,
 } from "./inq-config";
 import { PromptError, DefaultError, SubProcessError } from "./utils/errors";
 import { PROMPT_MESSAGES } from "./utils/constants";
@@ -35,7 +35,7 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
   const pkgChoices = await combineArrayChoices(inputPkg.split(" "), ws);
   const devChoices = await combineArrayChoices(
     inputPkg.split(" "),
-    flagChoices[packageManager],
+    filterOptionsChoices(packageManager),
   );
 
   if (!pkgChoices || !devChoices) {
