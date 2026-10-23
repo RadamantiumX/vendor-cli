@@ -13,8 +13,9 @@ export const initialChoices = [
     value: "install",
   },
   {
-    name: "Listing of dependencies",
+    name: "Listing of dependencies (available soon)",
     value: "list",
+    disabled: true,
   },
   {
     name: "Exit",
