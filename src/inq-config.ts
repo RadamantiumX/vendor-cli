@@ -2,7 +2,7 @@ import ansiColors from "ansi-colors";
 import { Separator } from "@inquirer/prompts";
 import { PromptError } from "./utils/errors";
 import { FLAG_OPTIONS } from "./utils/constants";
-import type { Choices, CheckBoxAnswer } from "./types/index";
+import type { Choices, CheckBoxAnswer, PkgMng } from "./types/index";
 
 /**
  * Static Choices for the main menu
@@ -22,7 +22,13 @@ export const initialChoices = [
   },
 ];
 
-export const filterOptionsChoices = (pkgMng: string): Choices[] => {
+/**
+ * Dinamic choices for options checkbox.
+ * Push the values of inquirer config choices filtering the current package manager options
+ * @param pkgMng pnpm // npm // yarn
+ * @returns the choices array without the separator
+ */
+export const filterOptionsChoices = (pkgMng: PkgMng): Choices[] => {
   const choiceArr = [];
   for (const [key, value] of Object.entries(
     FLAG_OPTIONS[pkgMng.toUpperCase() as keyof typeof FLAG_OPTIONS],
@@ -31,50 +37,6 @@ export const filterOptionsChoices = (pkgMng: string): Choices[] => {
   }
 
   return choiceArr;
-};
-export const flagChoices = {
-  npm: [
-    {
-      name: "DEV",
-      value: [true],
-    },
-    {
-      name: "OPTIONAL",
-      value: [true],
-    },
-    {
-      name: "EXACT VERSION",
-      value: [true],
-    },
-  ],
-  pnpm: [
-    {
-      name: "DEV",
-      value: [true],
-    },
-    {
-      name: "OPTIONAL",
-      value: [true],
-    },
-    {
-      name: "EXACT VERSION",
-      value: [true],
-    },
-  ],
-  yarn: [
-    {
-      name: "DEV",
-      value: [true],
-    },
-    {
-      name: "OPTIONAL",
-      value: [true],
-    },
-    {
-      name: "EXACT VERSION",
-      value: [true],
-    },
-  ],
 };
 
 /**
