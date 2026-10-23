@@ -16,7 +16,7 @@ export const PROMPT_MESSAGES = {
   INITIAL_SELECT: "Package Manager menu",
 };
 
-export const INSTALL_OPTIONS = {
+export const FLAG_OPTIONS = {
   PNPM: {
     DEV: "--save-dev",
     OPTIONAL: "--save-optional",
