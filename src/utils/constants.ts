@@ -11,7 +11,7 @@ export const ON_PROD = "prod";
 export const PROMPT_MESSAGES = {
   INPUT_PKG: "Enter the package/s name (separated by spaces):",
   WORKSPACE_QUIZ: "Select the workspace to install the current package",
-  DEV_QUIZ: "Only check ✅ the DEV-DEPENDENCIES",
+  DEV_QUIZ: "Only check ✅ the flag choices (if was needed).",
   CONFIRM_QUIZ: "¿Want continue with the process?",
   INITIAL_SELECT: "Package Manager menu",
 };

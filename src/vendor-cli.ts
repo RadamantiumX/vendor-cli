@@ -60,6 +60,7 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
   const devQuiz = await checkbox({
     message: PROMPT_MESSAGES.DEV_QUIZ,
     choices: devChoices as (string | Separator)[],
+    loop: false,
   });
 
   const confirmQuiz = await customConfirm({
