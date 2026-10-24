@@ -57,8 +57,8 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
     },
   });
   // TODO: if you don't pick any choice... the array is empty []
-  const devQuiz = await checkbox({
-    message: PROMPT_MESSAGES.DEV_QUIZ,
+  const optsQuiz = await checkbox({
+    message: PROMPT_MESSAGES.OPTS_QUIZ,
     choices: devChoices as (string | Separator)[],
     loop: false,
   });
@@ -74,7 +74,7 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
 
   const stmtBuild = await cliStatementBuilder(
     workspaceQuiz as AnswerArray[],
-    devQuiz as AnswerArray[],
+    optsQuiz as AnswerArray[],
     packageManager,
   );
 
