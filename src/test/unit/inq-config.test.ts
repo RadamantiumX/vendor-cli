@@ -26,7 +26,7 @@ const mockAnswersTrue = [
   },
 ];
 
-const mockChoices = [
+const mockChoicesWs = [
   {
     name: "API",
     value: ["api"],
@@ -61,19 +61,31 @@ describe("isValidAmountOfChoices", () => {
 });
 
 describe("combineArrayChoices", () => {
-  it("should return a choice array", async () => {
-    const mustBeChoices = await combineArrayChoices(mockPkgs, mockChoices);
+  it("should be defined", async () => {
+    const mustBeChoices = await combineArrayChoices(mockPkgs, mockChoicesWs);
     expect(mustBeChoices).toBeDefined();
   });
 });
 
 describe("filterOptionsChoices", () => {
-  it("should filter by package manager selected", () => {
+  it("should be defined", () => {
     const mustBeChoices = filterOptionsChoices(
       mockingPkgManager[
         Math.floor(Math.random() * mockingPkgManager.length)
       ] as PkgMng,
     );
     expect(mustBeChoices).toBeDefined();
+  });
+  it("should have the currents properties", () => {
+    const mustBeChoices = filterOptionsChoices(
+      mockingPkgManager[
+        Math.floor(Math.random() * mockingPkgManager.length)
+      ] as PkgMng,
+    );
+    mustBeChoices.map((item) => {
+      expect(item).toHaveProperty("name");
+      expect(item).toHaveProperty("value");
+      expect(item).toHaveProperty("description");
+    });
   });
 });
