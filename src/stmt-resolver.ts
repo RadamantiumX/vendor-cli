@@ -8,10 +8,16 @@ import type { AnswerArray } from "./types/index";
  *  --> yarn workspace <workspace-name> add <if is dev-dep "-D"> <package-name>
  */
 
-function groupingConfigNormalized(
+/**
+ * Group the INQUIRER PROMPTS array answers by the package to be used in the statement
+ * @param answersWs Workspaces selected for each package/s
+ * @param answersOpts Flag options selected for each package/s
+ * @returns the normalized object and the splited package/s array
+ */
+export const groupingConfigNormalized = (
   answersWs: AnswerArray[],
-  answersDev: AnswerArray[] | [],
-) {
+  answersOpts: AnswerArray[] | [],
+) => {
   const slicedPkgArr: string[] = [];
   const groupingByWs = Object.groupBy(
     [...answersWs],
@@ -19,7 +25,7 @@ function groupingConfigNormalized(
     (answ: any) => answ[1],
   );
   const groupingByOpts = Object.groupBy(
-    [...answersDev],
+    [...answersOpts],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (answ: any) => answ[1],
   );
@@ -38,17 +44,24 @@ function groupingConfigNormalized(
   }
 
   return { normalized, slicedPkgArr };
-}
+};
 
+/**
+ * Assembled cli statement to be used in spawn node child process. It's conditional by the package manager.
+ * @param rawWsAnswersArr Checkbox returned answers from Workspaces
+ * @param rawOptsAnswersArr Checkbox returned answers from Options flags
+ * @param pkgMng Current package manager
+ * @returns the full statement converted to string and joined.
+ */
 export async function cliStatementBuilder(
   rawWsAnswersArr: AnswerArray[],
-  rawDevAnswersArr: AnswerArray[] | [],
+  rawOptsAnswersArr: AnswerArray[] | [],
   pkgMng: PkgMng,
 ) {
   const stm: string[] = [];
   const { normalized, slicedPkgArr } = groupingConfigNormalized(
     rawWsAnswersArr,
-    rawDevAnswersArr,
+    rawOptsAnswersArr,
   );
 
   if (!normalized || !slicedPkgArr) {
