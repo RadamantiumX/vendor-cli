@@ -73,8 +73,8 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
   }
 
   const stmtBuild = await cliStatementBuilder(
-    workspaceQuiz as AnswerArray[],
-    optsQuiz as AnswerArray[],
+    workspaceQuiz as AnswerArray[][],
+    optsQuiz as AnswerArray[][],
     packageManager,
   );
 

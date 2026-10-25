@@ -15,8 +15,8 @@ import type { AnswerArray } from "./types/index";
  * @returns the normalized object and the splited package/s array
  */
 export const groupingConfigNormalized = (
-  answersWs: AnswerArray[],
-  answersOpts: AnswerArray[] | [],
+  answersWs: AnswerArray[][],
+  answersOpts: AnswerArray[][] | [],
 ) => {
   const slicedPkgArr: string[] = [];
   const groupingByWs = Object.groupBy(
@@ -54,8 +54,8 @@ export const groupingConfigNormalized = (
  * @returns the full statement converted to string and joined.
  */
 export async function cliStatementBuilder(
-  rawWsAnswersArr: AnswerArray[],
-  rawOptsAnswersArr: AnswerArray[] | [],
+  rawWsAnswersArr: AnswerArray[][],
+  rawOptsAnswersArr: AnswerArray[][] | [],
   pkgMng: PkgMng,
 ) {
   const stm: string[] = [];

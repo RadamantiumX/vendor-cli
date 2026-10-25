@@ -7,7 +7,7 @@ export type CheckBoxAnswer = {
   checked: boolean;
 };
 
-export type AnswerArray = PropertyKey & boolean[];
+export type AnswerArray = PropertyKey;
 
 export type PkgMng = "npm" | "pnpm" | "yarn";
 
