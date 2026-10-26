@@ -7,7 +7,7 @@ export type CheckBoxAnswer = {
   checked: boolean;
 };
 
-export type AnswerArray = PropertyKey;
+export type AnswerArray = string;
 
 export type PkgMng = "npm" | "pnpm" | "yarn";
 
@@ -18,3 +18,13 @@ export type Choices = {
 };
 
 export type UnknowError<T> = T | unknown;
+export type AnswKey<K> = K;
+
+export type ObjNormalized<T> = {
+  ws: {
+    [x: string]: T[] | undefined;
+  };
+  opts: {
+    [x: string]: T[] | undefined;
+  };
+};

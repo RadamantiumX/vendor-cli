@@ -1,9 +1,6 @@
 import { it, describe, expect, expectTypeOf } from "vitest";
-import {
-  groupingConfigNormalized,
-  type ObjNormalized,
-} from "../../stmt-resolver";
-import type { AnswerArray } from "#main-dev/types/index";
+import { groupingConfigNormalized } from "../../stmt-resolver";
+import type { AnswerArray, ObjNormalized } from "#main-dev/types/index";
 
 const mockAnswersWs = [
   ["api", "nodemon"],

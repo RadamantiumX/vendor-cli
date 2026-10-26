@@ -20,9 +20,9 @@ import type {
   CheckBoxAnswer,
   PkgMng,
   Choices,
+  UnknowError,
 } from "./types/index";
 
-export type UnknowError<T> = T | unknown;
 // Using the main child event process
 const { cliProcess, chunksStreamArr } = turboCliProcess();
 

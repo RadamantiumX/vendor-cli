@@ -1,6 +1,6 @@
 import type { PkgMng } from "./types/index";
 import { DefaultError } from "./utils/errors";
-import type { AnswerArray } from "./types/index";
+import type { AnswerArray, AnswKey, ObjNormalized } from "./types/index";
 /**
  * Statements structures Guidance:
  *  --> npm install <package-name> --workspace=<workspace-name> <if is dev-dep "-D" or "--save-dev">
@@ -8,13 +8,12 @@ import type { AnswerArray } from "./types/index";
  *  --> yarn workspace <workspace-name> add <if is dev-dep "-D"> <package-name>
  */
 
-export type ObjNormalized<T> = {
-  ws: {
-    [x: string]: T[] | undefined;
-  };
-  opts: {
-    [x: string]: T[] | undefined;
-  };
+const groupingKeys = (answObj: AnswerArray[][]) => {
+  const grpObj = Object.groupBy(
+    [...answObj],
+    (answ: AnswKey<string[]>) => answ[1] as string,
+  );
+  return grpObj;
 };
 
 /**
@@ -28,16 +27,9 @@ export const groupingConfigNormalized = (
   answersOpts: AnswerArray[][] | [],
 ) => {
   const slicedPkgArr: string[] = [];
-  const groupingByWs = Object.groupBy(
-    [...answersWs],
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (answ: any) => answ[1],
-  );
-  const groupingByOpts = Object.groupBy(
-    [...answersOpts],
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (answ: any) => answ[1],
-  );
+  const groupingByWs = groupingKeys(answersWs);
+  const groupingByOpts = groupingKeys(answersOpts);
+
   const normalized: ObjNormalized<string[]> = {
     ws: { ...groupingByWs },
     opts: { ...groupingByOpts },
