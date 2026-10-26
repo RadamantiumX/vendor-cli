@@ -8,6 +8,15 @@ import type { AnswerArray } from "./types/index";
  *  --> yarn workspace <workspace-name> add <if is dev-dep "-D"> <package-name>
  */
 
+export type ObjNormalized<T> = {
+  ws: {
+    [x: string]: T[] | undefined;
+  };
+  opts: {
+    [x: string]: T[] | undefined;
+  };
+};
+
 /**
  * Group the INQUIRER PROMPTS array answers by the package to be used in the statement
  * @param answersWs Workspaces selected for each package/s
@@ -29,7 +38,10 @@ export const groupingConfigNormalized = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (answ: any) => answ[1],
   );
-  const normalized = { ws: { ...groupingByWs }, opts: { ...groupingByOpts } };
+  const normalized: ObjNormalized<string[]> = {
+    ws: { ...groupingByWs },
+    opts: { ...groupingByOpts },
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (const [key, value] of Object.entries(normalized)) {
@@ -46,6 +58,7 @@ export const groupingConfigNormalized = (
   return { normalized, slicedPkgArr };
 };
 
+type AssembledStm<T> = T;
 /**
  * Assembled cli statement to be used in spawn node child process. It's conditional by the package manager.
  * @param rawWsAnswersArr Checkbox returned answers from Workspaces
@@ -58,7 +71,7 @@ export async function cliStatementBuilder(
   rawOptsAnswersArr: AnswerArray[][] | [],
   pkgMng: PkgMng,
 ) {
-  const stm: string[] = [];
+  const stm: AssembledStm<string[]> = [];
   const { normalized, slicedPkgArr } = groupingConfigNormalized(
     rawWsAnswersArr,
     rawOptsAnswersArr,
@@ -97,5 +110,5 @@ export async function cliStatementBuilder(
     }
   });
 
-  return stm.join(" & ");
+  return stm.join(" & ") as AssembledStm<string>;
 }

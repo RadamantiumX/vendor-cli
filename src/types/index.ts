@@ -16,3 +16,5 @@ export type Choices = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: string[] | boolean[] | any[];
 };
+
+export type UnknowError<T> = T | unknown;

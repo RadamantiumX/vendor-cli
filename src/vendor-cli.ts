@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import "dotenv/config";
 import { turboCliProcess, asyncExeComand } from "./spawn";
 import { colorConsole } from "./utils/colors";
@@ -15,6 +14,7 @@ import {
 } from "./inq-config";
 import { PromptError, DefaultError, SubProcessError } from "./utils/errors";
 import { PROMPT_MESSAGES } from "./utils/constants";
+
 import type {
   AnswerArray,
   CheckBoxAnswer,
@@ -22,6 +22,7 @@ import type {
   Choices,
 } from "./types/index";
 
+export type UnknowError<T> = T | unknown;
 // Using the main child event process
 const { cliProcess, chunksStreamArr } = turboCliProcess();
 
@@ -88,7 +89,7 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
     .then(() => {
       colorConsole(`Press ENTER to exit`, "success");
     })
-    .catch((e: any) => {
+    .catch((e: UnknowError<string>) => {
       colorConsole(`Failed on ${e}`, "error");
     });
 
@@ -114,12 +115,14 @@ const listingProcedure = () => {
   return;
 };
 
+type StreamExitCode<T> = T | unknown;
+
 /**
  * This callback will run when the listener receive the "data" event, another child event is triggered
- * @param {any} code Comming from the "stdout" of the main process to adding on choices
+ * @param {StreamExitCode<number>} code Comming from the "stdout" of the main process to adding on choices
  * @returns {Promise<void>}
  */
-export async function vendorCli(code: any): Promise<void> {
+export async function vendorCli(code: StreamExitCode<number>): Promise<void> {
   try {
     if (code !== 0) {
       throw new SubProcessError();
@@ -144,10 +147,10 @@ export async function vendorCli(code: any): Promise<void> {
       colorConsole("Exit from the assistant... Bye bye👋", "exit");
       return;
     }
-  } catch (error: any) {
+  } catch (error: UnknowError<string>) {
     if (
-      error.toString().includes("ExitPromptError") ||
-      error.toString().includes("AbortError")
+      error?.toString().includes("ExitPromptError") ||
+      error?.toString().includes("AbortError")
     ) {
       colorConsole("Bye bye 👋", "exit");
       return;
