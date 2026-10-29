@@ -1,15 +1,14 @@
 import { it, describe, expect, expectTypeOf } from "vitest";
-import { groupingConfigNormalized } from "../../stmt-resolver";
-import type { AnswerArray, ObjNormalized } from "#main-dev/types/index";
-
-const mockAnswersWs = [
-  ["api", "nodemon"],
-  ["client", "react"],
-] as AnswerArray[][];
-const mockAnswersOpts = [
-  ["--save-dev", "nodemon"],
-  ["--save-prod", "react"],
-] as AnswerArray[][];
+import {
+  groupingConfigNormalized,
+  cliStatementBuilder,
+} from "../../stmt-resolver";
+import type { ObjNormalized } from "#main-dev/types/index";
+import {
+  mockAnswersWs,
+  mockAnswersOpts,
+  mockStmt,
+} from "./mock/mocking-values";
 
 describe("groupingConfigNormalized", () => {
   it("should be defined", () => {
@@ -21,16 +20,26 @@ describe("groupingConfigNormalized", () => {
   });
 
   it("should be the correct type", () => {
-    const { normalized } = groupingConfigNormalized(
+    const { normalized, slicedPkgArr } = groupingConfigNormalized(
       mockAnswersWs,
       mockAnswersOpts,
     );
     expectTypeOf(normalized).toEqualTypeOf<ObjNormalized<string[]>>();
+    expectTypeOf(slicedPkgArr).toEqualTypeOf<string[]>();
   });
 });
 
-// describe("cliStatementBuilder", ()=>{
-//    it("",()=>{
-
-//    })
-// })
+describe("cliStatementBuilder", async () => {
+  const cliExeTest = await cliStatementBuilder(
+    mockAnswersWs,
+    mockAnswersOpts,
+    "npm",
+  );
+  it("should be defined", () => {
+    expect(cliExeTest).toBeDefined();
+  });
+  // todo: manke a loop to test for: npm, pnpm and yarn
+  it("should build a correct statement (with npm)", () => {
+    expect(cliExeTest).toMatch(mockStmt);
+  });
+});

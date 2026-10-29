@@ -2,6 +2,7 @@ import type { AnswerArray } from "#main-dev/types/index";
 
 export const mockAnswersWs = [
   ["api", "nodemon"],
+  ["client", "nodemon"],
   ["client", "react"],
 ] as AnswerArray[][];
 
@@ -11,7 +12,10 @@ export const mockAnswersOpts = [
 ] as AnswerArray[][];
 
 export const mockReturnGroupByWsPkg = {
-  nodemon: [["api", "nodemon"]],
+  nodemon: [
+    ["api", "nodemon"],
+    ["client", "nodemon"],
+  ],
   react: [["client", "react"]],
 };
 
@@ -24,3 +28,8 @@ export const mockNormalized = {
   ws: mockReturnGroupByWsPkg,
   opts: mockReturnGroupByOptsPkg,
 };
+
+export const mockPkgs = ["nodemon", "react"];
+
+export const mockStmt =
+  "npm install nodemon -w api -w client --save-dev & npm install react -w client --save-prod";

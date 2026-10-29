@@ -70,7 +70,7 @@ export async function cliStatementBuilder(
   );
 
   if (!normalized || !slicedPkgArr) {
-    throw new DefaultError();
+    throw new DefaultError("Failed on cli statement");
   }
   slicedPkgArr.map((pkg) => {
     switch (pkgMng) {
@@ -81,7 +81,7 @@ export async function cliStatementBuilder(
             .map((w) => `-w ${w}`)
             .join(
               " ",
-            )}${normalized.opts[pkg] ? normalized.opts[pkg].flat().join(" ") : ""}`,
+            )} ${normalized.opts[pkg] ? normalized.opts[pkg].flat().join(" ") : ""}`,
         );
         break;
       case "pnpm":

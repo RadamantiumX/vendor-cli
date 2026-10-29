@@ -47,5 +47,3 @@ describe("mockingGroupingKeys", () => {
     expect(mockNormalizedAnswers).toHaveResolvedWith(mockNormalized);
   });
 });
-
-describe("mockingCliStatementBuilder", () => {});
