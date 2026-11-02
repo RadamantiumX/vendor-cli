@@ -1,6 +1,6 @@
 import type { PkgMng } from "./types/index";
 import { DefaultError } from "./utils/errors";
-import type { AnswerArray, AnswKey, ObjNormalized } from "./types/index";
+import type { AnswerArray, AnswKey } from "./types/index";
 /**
  * Statements structures Guidance:
  *  --> npm install <package-name> --workspace=<workspace-name> <if is dev-dep "-D" or "--save-dev">
@@ -8,12 +8,43 @@ import type { AnswerArray, AnswKey, ObjNormalized } from "./types/index";
  *  --> yarn workspace <workspace-name> add <if is dev-dep "-D"> <package-name>
  */
 
-const groupingKeys = (answObj: AnswerArray[][]) => {
+export type ObjectPartial = Partial<Record<string, string[][]>>;
+export type AssembledStm<T> = T;
+
+// Grouping the Answers by the index #1, and used it for key in each object
+// This must be the package input at the inquirer questions
+export const groupingObjectKeys = (answObj: AnswerArray[][]) => {
   const grpObj = Object.groupBy(
-    [...answObj],
-    (answ: AnswKey<string[]>) => answ[1] as string,
+    [...answObj], // Spread the grouped object
+    (answ: AnswKey<string[]>) => answ[1] as string, // answ[1] => object key
   );
   return grpObj;
+};
+
+// Applying normalization the objects to spread them into "ws" (workspace) and "opts" (flag options) keys
+// Iterating this object to get the key and pushed in the array,
+// popping the last key of this object (package name)
+export const loopingNormalizedObject = (
+  groupingByWs: ObjectPartial,
+  groupingByOpts: ObjectPartial,
+) => {
+  const slicedArr: string[] = [];
+  const normalized = {
+    ws: { ...groupingByWs },
+    opts: { ...groupingByOpts },
+  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  for (const [key, value] of Object.entries(normalized)) {
+    for (const [keyNested, valueNested] of Object.entries(value)) {
+      if (!slicedArr.includes(keyNested)) {
+        slicedArr.push(keyNested);
+      }
+      valueNested?.map((item: string[]) => {
+        item.pop();
+      });
+    }
+  }
+  return { normalized, slicedArr };
 };
 
 /**
@@ -22,35 +53,16 @@ const groupingKeys = (answObj: AnswerArray[][]) => {
  * @param answersOpts Flag options selected for each package/s
  * @returns the normalized object and the splited package/s array
  */
-export const groupingConfigNormalized = (
+export function groupingConfigNormalized(
   answersWs: AnswerArray[][],
   answersOpts: AnswerArray[][] | [],
-) => {
-  const slicedPkgArr: string[] = [];
-  const groupingByWs = groupingKeys(answersWs);
-  const groupingByOpts = groupingKeys(answersOpts);
+) {
+  const groupingByWs = groupingObjectKeys(answersWs);
+  const groupingByOpts = groupingObjectKeys(answersOpts);
 
-  const normalized: ObjNormalized<string[]> = {
-    ws: { ...groupingByWs },
-    opts: { ...groupingByOpts },
-  };
+  return loopingNormalizedObject(groupingByWs, groupingByOpts);
+}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  for (const [key, value] of Object.entries(normalized)) {
-    for (const [keyNested, valueNested] of Object.entries(value)) {
-      if (!slicedPkgArr.includes(keyNested)) {
-        slicedPkgArr.push(keyNested);
-      }
-      valueNested?.map((item) => {
-        item.pop();
-      });
-    }
-  }
-
-  return { normalized, slicedPkgArr };
-};
-
-type AssembledStm<T> = T;
 /**
  * Assembled cli statement to be used in spawn node child process. It's conditional by the package manager.
  * @param rawWsAnswersArr Checkbox returned answers from Workspaces
@@ -64,15 +76,15 @@ export async function cliStatementBuilder(
   pkgMng: PkgMng,
 ) {
   const stm: AssembledStm<string[]> = [];
-  const { normalized, slicedPkgArr } = groupingConfigNormalized(
+  const { normalized, slicedArr } = groupingConfigNormalized(
     rawWsAnswersArr,
     rawOptsAnswersArr,
   );
 
-  if (!normalized || !slicedPkgArr) {
+  if (!normalized || !slicedArr) {
     throw new DefaultError("Failed on cli statement");
   }
-  slicedPkgArr.map((pkg) => {
+  slicedArr.map((pkg) => {
     switch (pkgMng) {
       case "npm":
         stm.push(
