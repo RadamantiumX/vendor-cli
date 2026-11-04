@@ -1,12 +1,6 @@
 import type { PkgMng } from "./types/index";
 import { DefaultError } from "./utils/errors";
 import type { AnswerArray, AnswKey } from "./types/index";
-/**
- * Statements structures Guidance:
- *  --> npm install <package-name> --workspace=<workspace-name> <if is dev-dep "-D" or "--save-dev">
- *  --> pnpm add <if is dev-dep "-D"> <package-name> <flag: filter workspace>
- *  --> yarn workspace <workspace-name> add <if is dev-dep "-D"> <package-name>
- */
 
 export type ObjectPartial = Partial<Record<string, string[][]>>;
 export type AssembledStm<T> = T;

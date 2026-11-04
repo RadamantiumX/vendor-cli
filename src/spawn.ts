@@ -32,20 +32,21 @@ export function asyncExeComand(command: string): Promise<unknown> {
   });
 }
 
-interface CliChildStreamAndChunks {
+type CliChildStreamAndChunks<T> = {
   cliProcess: ChildProcessWithoutNullStreams;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  chunksStreamArr: any[];
-}
+  chunksStreamArr: T[];
+};
 
+// TODO: adding type on chunks
 /**
  * Turbo Cli trigger --> LIST all exists WS and paths
  * @returns {CliChildStreamAndChunks} The Stream child process & array of chunks stream from the output
  */
-export function turboCliProcess(): CliChildStreamAndChunks {
+export function turboCliProcess(): CliChildStreamAndChunks<
+  Uint8Array<ArrayBufferLike>
+> {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const chunksStreamArr: any[] = [];
+    const chunksStreamArr: Uint8Array<ArrayBufferLike>[] = [];
 
     const cliProcess = spawn(TURBO_LIST, {
       stdio: ["overlapped", "pipe", "pipe"],

@@ -13,40 +13,45 @@ import {
   mockStmt,
 } from "./mock/mocking-values";
 
-// TODO: try to use beforeAll to start the mocking
-
-const mockAnswersWsIsolated = [
-  ["api", "nodemon"],
-  ["client", "nodemon"],
-  ["client", "react"],
-] as AnswerArray[][];
-
-const mockReturnGroupByWsPkgIsolated = {
-  nodemon: [
+const isolated = {
+  answerWs: [
     ["api", "nodemon"],
     ["client", "nodemon"],
-  ],
-  react: [["client", "react"]],
-};
-const mockReturnGroupByOptsPkgIsolated = {
-  nodemon: [["--save-dev", "nodemon"]],
-  react: [["--save-prod", "react"]],
-};
-
-const pkgsIsolated = ["nodemon", "react"];
-const mockReturnPopedWsIsolated = {
-  nodemon: [["api"], ["client"]],
-  react: [["client"]],
-};
-
-const mockReturnPopedOptsIsolated = {
-  nodemon: [["--save-dev"]],
-  react: [["--save-prod"]],
-};
-
-export const mockNormalizedIsolated = {
-  ws: mockReturnPopedWsIsolated,
-  opts: mockReturnPopedOptsIsolated,
+    ["client", "react"],
+  ] as AnswerArray[][],
+  returnAnswerWs: {
+    nodemon: [
+      ["api", "nodemon"],
+      ["client", "nodemon"],
+    ],
+    react: [["client", "react"]],
+  },
+  returnGroupByWsPkg: {
+    nodemon: [
+      ["api", "nodemon"],
+      ["client", "nodemon"],
+    ],
+    react: [["client", "react"]],
+  },
+  returnGroupByOptsPkg: {
+    nodemon: [["--save-dev", "nodemon"]],
+    react: [["--save-prod", "react"]],
+  },
+  pkgs: ["nodemon", "react"],
+  returnPopedWsOpts: {
+    nodemon: [["--save-dev"]],
+    react: [["--save-prod"]],
+  },
+  normalized: {
+    ws: {
+      nodemon: [["api"], ["client"]],
+      react: [["client"]],
+    },
+    opts: {
+      nodemon: [["--save-dev"]],
+      react: [["--save-prod"]],
+    },
+  },
 };
 
 describe("groupingConfigNormalized", () => {
@@ -59,17 +64,17 @@ describe("groupingConfigNormalized", () => {
   });
 
   it("should be group by pkg name", () => {
-    expect(groupingObjectKeys(mockAnswersWsIsolated)).toEqual(
-      mockReturnGroupByWsPkgIsolated,
+    expect(groupingObjectKeys(isolated.answerWs)).toEqual(
+      isolated.returnGroupByWsPkg,
     );
   });
   it("should return fixed group object and pkg array", () => {
     expect(
       loopingNormalizedObject(
-        mockReturnGroupByWsPkgIsolated,
-        mockReturnGroupByOptsPkgIsolated,
+        isolated.returnGroupByWsPkg,
+        isolated.returnGroupByOptsPkg,
       ),
-    ).toEqual({ normalized: mockNormalizedIsolated, slicedArr: pkgsIsolated });
+    ).toEqual({ normalized: isolated.normalized, slicedArr: isolated.pkgs });
   });
   it("should be the correct type", () => {
     const { normalized, slicedArr } = groupingConfigNormalized(
