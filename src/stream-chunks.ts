@@ -3,12 +3,13 @@ import type { Choices, PkgMng } from "./types/index";
 
 // The binary data provided must be concatenated and decoded
 // Then, can be parsed.
-export const decodingBuffer = (
+export const bufferDecodingToObjectParsed = (
   streamChunksArr: Uint8Array<ArrayBufferLike>[],
 ) => {
   const fullBufferMerged = Buffer.concat(streamChunksArr);
   const decodedBuffer = new TextDecoder("utf-8").decode(fullBufferMerged);
-  return decodedBuffer;
+  const parsedObj = JSON.parse(decodedBuffer);
+  return parsedObj;
 };
 
 /**
@@ -22,16 +23,15 @@ export async function handleStreamChunks(
   const wsAvailable = [] as Choices[]; // Input/prompts array choices
 
   // Chunks treatment
-  const decodedBufferFromStream = decodingBuffer(streamChunksArr);
+  const decodedParsed = bufferDecodingToObjectParsed(streamChunksArr);
 
-  if (!decodedBufferFromStream) {
+  // Todo: adding zod validation for this
+  if (!decodedParsed) {
     throw new SubProcessError("Error on decoded data");
   }
 
-  // After parse we are able to create the format of input/prompt choices
-  const parsedObj = JSON.parse(decodedBufferFromStream);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  parsedObj.packages.items.map((item: any) => {
+  decodedParsed.packages.items.map((item: any) => {
     wsAvailable.push({
       name: `${item.name} | ${item.path}`,
       value: [item.name],
@@ -39,9 +39,9 @@ export async function handleStreamChunks(
   });
 
   // The default output is "pnpm9", can be transformed to "pnpm". Just this value, the other are OK
-  const packageManager: PkgMng = parsedObj.packageManager.includes("pnpm9")
+  const packageManager: PkgMng = decodedParsed.packageManager.includes("pnpm9")
     ? "pnpm"
-    : parsedObj.packageManager;
+    : decodedParsed.packageManager;
 
   return { wsAvailable, packageManager };
 }

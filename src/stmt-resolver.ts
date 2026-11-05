@@ -23,6 +23,7 @@ export const loopingNormalizedObject = (
   groupingByOpts: ObjectPartial,
 ) => {
   const slicedArr: string[] = [];
+
   const normalized = {
     ws: { ...groupingByWs },
     opts: { ...groupingByOpts },
@@ -70,6 +71,8 @@ export async function cliStatementBuilder(
   pkgMng: PkgMng,
 ) {
   const stm: AssembledStm<string[]> = [];
+
+  // todo: adding zod validation here
   const { normalized, slicedArr } = groupingConfigNormalized(
     rawWsAnswersArr,
     rawOptsAnswersArr,

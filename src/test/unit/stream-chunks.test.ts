@@ -1,5 +1,8 @@
 import { it, describe, expect } from "vitest";
-import { handleStreamChunks, decodingBuffer } from "#main-dev/stream-chunks";
+import {
+  handleStreamChunks,
+  bufferDecodingToObjectParsed,
+} from "#main-dev/stream-chunks";
 
 // Original object to test
 const toMockedObject = {
@@ -18,16 +21,31 @@ const mockedChunkBuffer: Uint8Array<ArrayBufferLike>[] = [
   new TextEncoder().encode(JSON.stringify(toMockedObject)),
 ];
 
+const wsMockedReturn = [
+  {
+    name: "api | loader\\api",
+    value: ["api"],
+  },
+  {
+    name: "client | loader\\client",
+    value: ["client"],
+  },
+];
+
 describe("handleStreamChunks", () => {
   it("should be defined", () => {
     expect(handleStreamChunks).toBeDefined();
   });
   it("should decode the binary data", () => {
-    const dec = decodingBuffer(mockedChunkBuffer);
+    const dec = bufferDecodingToObjectParsed(mockedChunkBuffer);
     expect(dec).toBe(JSON.stringify(toMockedObject));
   });
   it("should return the correct package manager name", async () => {
     const { packageManager } = await handleStreamChunks(mockedChunkBuffer);
     expect(packageManager).toBe("pnpm");
+  });
+  it("should return WS parsed to Array object", async () => {
+    const { wsAvailable } = await handleStreamChunks(mockedChunkBuffer);
+    expect(wsAvailable).toEqual(wsMockedReturn);
   });
 });
