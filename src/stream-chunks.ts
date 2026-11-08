@@ -1,11 +1,12 @@
-import { SubProcessError } from "./utils/errors";
-import type { Choices, PkgMng } from "./types/index";
+import { ZodErrorIssue } from "./utils/errors";
+import { isValidObjectProperties } from "./utils/validations";
+import type { Choices, PkgMng, ParsedCliTurboMetaData } from "./types/index";
 
 // The binary data provided must be concatenated and decoded
 // Then, can be parsed.
 export const bufferDecodingToObjectParsed = (
   streamChunksArr: Uint8Array<ArrayBufferLike>[],
-) => {
+): ParsedCliTurboMetaData<string> => {
   const fullBufferMerged = Buffer.concat(streamChunksArr);
   const decodedBuffer = new TextDecoder("utf-8").decode(fullBufferMerged);
   const parsedObj = JSON.parse(decodedBuffer);
@@ -26,8 +27,8 @@ export async function handleStreamChunks(
   const decodedParsed = bufferDecodingToObjectParsed(streamChunksArr);
 
   // Todo: adding zod validation for this
-  if (!decodedParsed) {
-    throw new SubProcessError("Error on decoded data");
+  if (!isValidObjectProperties(decodedParsed)) {
+    throw new ZodErrorIssue("Error on decoded data");
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +42,9 @@ export async function handleStreamChunks(
   // The default output is "pnpm9", can be transformed to "pnpm". Just this value, the other are OK
   const packageManager: PkgMng = decodedParsed.packageManager.includes("pnpm9")
     ? "pnpm"
-    : decodedParsed.packageManager;
+    : decodedParsed.packageManager.includes("npm")
+      ? "npm"
+      : "yarn";
 
   return { wsAvailable, packageManager };
 }
