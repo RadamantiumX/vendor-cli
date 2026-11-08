@@ -36,15 +36,15 @@ describe("handleStreamChunks", () => {
   it("should be defined", () => {
     expect(handleStreamChunks).toBeDefined();
   });
-  it("should decode the binary data", () => {
+  it("should decoded and parsed the data provied", () => {
     const dec = bufferDecodingToObjectParsed(mockedChunkBuffer);
-    expect(dec).toBe(JSON.stringify(toMockedObject));
+    expect(dec).toStrictEqual(toMockedObject);
   });
   it("should return the correct package manager name", async () => {
     const { packageManager } = await handleStreamChunks(mockedChunkBuffer);
     expect(packageManager).toBe("pnpm");
   });
-  it("should return WS parsed to Array object", async () => {
+  it("should return a refactores object with WS", async () => {
     const { wsAvailable } = await handleStreamChunks(mockedChunkBuffer);
     expect(wsAvailable).toEqual(wsMockedReturn);
   });
