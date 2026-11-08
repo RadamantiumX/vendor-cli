@@ -1,7 +1,6 @@
-import "dotenv/config";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { SubProcessError } from "./utils/errors";
-import { colorConsole } from "./utils/colors";
+import { colorConsole } from "./console/colors";
 import { TURBO_LIST } from "./utils/constants";
 
 /**

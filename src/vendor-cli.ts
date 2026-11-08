@@ -1,11 +1,10 @@
-import "dotenv/config";
 import { turboCliProcess, asyncExeComand } from "./spawn";
-import { colorConsole } from "./utils/colors";
+import { colorConsole } from "./console/colors";
 import { handleStreamChunks } from "./stream-chunks";
 import { cliStatementBuilder } from "./stmt-resolver";
-import signature from "./utils/ansii-art";
+import signature from "./console/ansii-art";
 import { checkbox, input, select, Separator } from "@inquirer/prompts";
-import customConfirm from "./lib/custom-inquirer";
+import customConfirm from "./plugins/custom-inquirer";
 import {
   isValidAmountOfChoices,
   combineArrayChoices,
