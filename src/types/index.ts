@@ -28,3 +28,14 @@ export type ObjNormalized<T> = {
     [x: string]: T[] | undefined;
   };
 };
+
+export type ParsedCliTurboMetaData<P> = {
+  packageManager: P;
+  packages: {
+    count: number;
+    items: {
+      name: string;
+      path: string;
+    }[];
+  };
+};
