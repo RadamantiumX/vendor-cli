@@ -21,3 +21,7 @@ export class NodeReadLineError extends Error {
 export class DefaultError extends Error {
   override name = "DefaultError";
 }
+
+export class ZodErrorIssue extends Error {
+  override name = "ZodErrorIssue";
+}
