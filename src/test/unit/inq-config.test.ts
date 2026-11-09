@@ -3,7 +3,7 @@ import {
   isValidAmountOfChoices,
   combineArrayChoices,
   filterOptionsChoices,
-} from "#main-dev/inq-config";
+} from "../../prompts/inq-config";
 import type { PkgMng } from "../../types/index";
 
 const mockPkgs = ["nodemon", "react"];

@@ -1,8 +1,8 @@
 import ansiColors from "ansi-colors";
 import { Separator } from "@inquirer/prompts";
-import { PromptError } from "./utils/errors";
-import { FLAG_OPTIONS } from "./utils/constants";
-import type { Choices, CheckBoxAnswer, PkgMng } from "./types/index";
+import { PromptError } from "../utils/errors";
+import { FLAG_OPTIONS } from "../utils/constants";
+import type { Choices, CheckBoxAnswer, PkgMng } from "../types/index";
 
 /**
  * Static Choices for the main menu

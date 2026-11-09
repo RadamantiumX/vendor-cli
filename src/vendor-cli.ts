@@ -4,13 +4,13 @@ import { handleStreamChunks } from "./stream-chunks";
 import { cliStatementBuilder } from "./stmt-resolver";
 import signature from "./console/ansii-art";
 import { checkbox, input, select, Separator } from "@inquirer/prompts";
-import customConfirm from "./plugins/custom-inquirer";
+import customConfirm from "./prompts/custom-inquirer";
 import {
   isValidAmountOfChoices,
   combineArrayChoices,
   initialChoices,
   filterOptionsChoices,
-} from "./inq-config";
+} from "./prompts/inq-config";
 import { PromptError, DefaultError, SubProcessError } from "./utils/errors";
 import { PROMPT_MESSAGES } from "./utils/constants";
 

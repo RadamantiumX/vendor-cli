@@ -16,9 +16,24 @@ const toMockedObject = {
   },
 };
 
+const toMockedObjectThrow = {
+  packageManager: "bun",
+  packages: {
+    count: 2,
+    items: [
+      { name: "api", path: "loader\\api" },
+      { name: "client", path: "loader\\client" },
+    ],
+  },
+};
+
 // Converter to ARRAY BUFFER
 const mockedChunkBuffer: Uint8Array<ArrayBufferLike>[] = [
   new TextEncoder().encode(JSON.stringify(toMockedObject)),
+];
+
+const mockedChunkBufferThrow: Uint8Array<ArrayBufferLike>[] = [
+  new TextEncoder().encode(JSON.stringify(toMockedObjectThrow)),
 ];
 
 const wsMockedReturn = [
@@ -47,5 +62,10 @@ describe("handleStreamChunks", () => {
   it("should return a refactores object with WS", async () => {
     const { wsAvailable } = await handleStreamChunks(mockedChunkBuffer);
     expect(wsAvailable).toEqual(wsMockedReturn);
+  });
+  it("should throw for validations", async () => {
+    expect(
+      async () => await handleStreamChunks(mockedChunkBufferThrow),
+    ).rejects.toThrow();
   });
 });

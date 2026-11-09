@@ -1,5 +1,5 @@
 import { ZodErrorIssue } from "./utils/errors";
-import { isValidObjectProperties } from "./utils/validations";
+import { turboCliWsSchema } from "./utils/validations";
 import type { Choices, PkgMng, ParsedCliTurboMetaData } from "./types/index";
 
 // The binary data provided must be concatenated and decoded
@@ -25,10 +25,10 @@ export async function handleStreamChunks(
 
   // Chunks treatment
   const decodedParsed = bufferDecodingToObjectParsed(streamChunksArr);
+  const isValidDecoded = turboCliWsSchema.safeParse(decodedParsed);
 
-  // Todo: adding zod validation for this
-  if (!isValidObjectProperties(decodedParsed)) {
-    throw new ZodErrorIssue("Error on decoded data");
+  if (!isValidDecoded.success) {
+    throw new ZodErrorIssue();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
