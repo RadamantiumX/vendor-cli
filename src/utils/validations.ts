@@ -15,3 +15,27 @@ export const turboCliWsSchema = z.object({
       .nonempty({ message: "Should have any workspace at least" }),
   }),
 });
+
+export const packageSchema = z
+  .array(
+    z
+      .string({ message: "Invalid entry" })
+      .min(1, { message: "The name of the package is no valid" })
+      .max(100, { message: "The name of the package is no valid" }),
+  )
+  .nonempty({ message: "The contain is empty" });
+
+/**
+ * Normalized:
+ * 
+ *
+ const normalized: {
+  ws: {
+    [x: string]: string[][] | undefined;
+       };
+  opts: {
+    [x: string]: string[][] | undefined;
+       };
+}
+ * 
+ */

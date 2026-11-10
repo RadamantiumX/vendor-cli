@@ -1,7 +1,8 @@
 import ansiColors from "ansi-colors";
 import { Separator } from "@inquirer/prompts";
-import { PromptError } from "../utils/errors";
+import { PromptError, ZodErrorIssue } from "../utils/errors";
 import { FLAG_OPTIONS } from "../utils/constants";
+import { packageSchema } from "#main-dev/utils/validations";
 import type { Choices, CheckBoxAnswer, PkgMng } from "../types/index";
 
 /**
@@ -80,6 +81,11 @@ export async function combineArrayChoices(
   packageArr: string[],
   objChoiceArr: Choices[],
 ) {
+  const isValidPkgArray = packageSchema.safeParse(packageArr);
+  if (!isValidPkgArray.success) {
+    throw new ZodErrorIssue("The entered dependencies are not valid");
+  }
+
   const assembledChoices = packageArr.reduce((acc, item) => {
     const mixed = objChoiceArr.map((obj) => {
       obj = { name: obj.name, value: [obj.value, item].flat() };
@@ -92,5 +98,6 @@ export async function combineArrayChoices(
   if (!assembledChoices) {
     throw new PromptError();
   }
+
   return assembledChoices;
 }
