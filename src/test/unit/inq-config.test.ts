@@ -7,6 +7,9 @@ import {
 import type { PkgMng } from "../../types/index";
 
 const mockPkgs = ["nodemon", "react"];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mockPkgsThrow = [] as any[];
+
 const mockAnswersTrue = [
   {
     value: ["api", "nodemon"],
@@ -64,6 +67,11 @@ describe("combineArrayChoices", () => {
   it("should be defined", async () => {
     const mustBeChoices = await combineArrayChoices(mockPkgs, mockChoicesWs);
     expect(mustBeChoices).toBeDefined();
+  });
+  it("should be throw if the package array no match", async () => {
+    await expect(async () => {
+      await combineArrayChoices(mockPkgsThrow, mockChoicesWs);
+    }).rejects.toThrow();
   });
 });
 
