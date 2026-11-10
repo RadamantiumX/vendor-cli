@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { it, describe, expect } from "vitest";
 import {
   isValidAmountOfChoices,
@@ -7,8 +8,9 @@ import {
 import type { PkgMng } from "../../types/index";
 
 const mockPkgs = ["nodemon", "react"];
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mockPkgsThrow = [] as any[];
+
+const mockPkgsThrowEmpty = [] as any[];
+const mockPkgsThrowWrongElement = [""] as any[];
 
 const mockAnswersTrue = [
   {
@@ -68,9 +70,16 @@ describe("combineArrayChoices", () => {
     const mustBeChoices = await combineArrayChoices(mockPkgs, mockChoicesWs);
     expect(mustBeChoices).toBeDefined();
   });
-  it("should be throw if the package array no match", async () => {
+
+  it("should be throw if the array is empty", async () => {
     await expect(async () => {
-      await combineArrayChoices(mockPkgsThrow, mockChoicesWs);
+      await combineArrayChoices(mockPkgsThrowEmpty, mockChoicesWs);
+    }).rejects.toThrow();
+  });
+
+  it("should be throw if the array content wrong element", async () => {
+    await expect(async () => {
+      await combineArrayChoices(mockPkgsThrowWrongElement, mockChoicesWs);
     }).rejects.toThrow();
   });
 });

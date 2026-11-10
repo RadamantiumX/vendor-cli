@@ -21,7 +21,7 @@ export const packageSchema = z
     z
       .string({ message: "Invalid entry" })
       .min(1, { message: "The name of the package is no valid" })
-      .max(100, { message: "The name of the package is no valid" }),
+      .max(214, { message: "The name of the package is no valid" }),
   )
   .nonempty({ message: "The contain is empty" });
 
