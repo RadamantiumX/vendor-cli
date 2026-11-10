@@ -28,7 +28,7 @@ export async function handleStreamChunks(
   const isValidDecoded = turboCliWsSchema.safeParse(decodedParsed);
 
   if (!isValidDecoded.success) {
-    throw new ZodErrorIssue();
+    throw new ZodErrorIssue("Invalid format");
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
