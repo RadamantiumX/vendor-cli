@@ -64,7 +64,7 @@ describe("handleStreamChunks", () => {
     expect(wsAvailable).toEqual(wsMockedReturn);
   });
   it("should throw for validations", async () => {
-    expect(
+    await expect(
       async () => await handleStreamChunks(mockedChunkBufferThrow),
     ).rejects.toThrow();
   });
