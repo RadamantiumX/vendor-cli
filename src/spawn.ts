@@ -2,6 +2,7 @@ import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { SubProcessError } from "./utils/errors";
 import { colorConsole } from "./console/colors";
 import { TURBO_LIST } from "./utils/constants";
+import { spawnExeSchema } from "./utils/validations";
 
 /**
  * Return a Stream Promise for run npm installation process. This avoid any error on execution,
@@ -10,8 +11,12 @@ import { TURBO_LIST } from "./utils/constants";
  * @returns {Promise<unknown>} Buffer of installation progress
  */
 export function asyncExeComand(command: string): Promise<unknown> {
-  console.log(command);
+  const isValidStmt = spawnExeSchema.safeParse(command);
+
   return new Promise((resolve, reject) => {
+    if (!isValidStmt.success) {
+      reject(new SubProcessError("invalid statement"));
+    }
     const cmd = spawn(command, {
       shell: true,
       cwd: process.cwd(),
