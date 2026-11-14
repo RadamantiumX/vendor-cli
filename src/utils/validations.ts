@@ -51,10 +51,7 @@ export const packageSchema = z
   )
   .nonempty({ message: "The contain is empty" });
 
-// TODO: define custom validation here
-export const spawnExeSchema = z
-  .string()
-  .trim()
-  .regex(flexibleInstallRegex, {
-    message: "The current format is not invalid",
-  });
+// With this we can avoid the injections into the CLI.
+export const spawnExeSchema = z.string().trim().regex(flexibleInstallRegex, {
+  message: "The current format is not invalid",
+});
