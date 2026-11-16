@@ -4,6 +4,7 @@ import { colorConsole } from "./console/colors";
 import { TURBO_LIST } from "./utils/constants";
 import { spawnExeSchema } from "./utils/validations";
 
+// TODO: take off the console log error and use only the throw.
 /**
  * Return a Stream Promise for run npm installation process. This avoid any error on execution,
  * and desn't need blocks the main process.
@@ -30,8 +31,8 @@ export function asyncExeComand(command: string): Promise<unknown> {
       }
     });
 
-    cmd.on("error", (err) => {
-      reject(colorConsole(`The processis fail on: ${err}`, "error"));
+    cmd.on("error", (error) => {
+      reject(new SubProcessError(`Error on child process: ${error}`));
     });
   });
 }
@@ -41,7 +42,6 @@ type CliChildStreamAndChunks<T> = {
   chunksStreamArr: T[];
 };
 
-// TODO: adding type on chunks
 /**
  * Turbo Cli trigger --> LIST all exists WS and paths
  * @returns {CliChildStreamAndChunks} The Stream child process & array of chunks stream from the output
@@ -49,23 +49,19 @@ type CliChildStreamAndChunks<T> = {
 export function turboCliProcess(): CliChildStreamAndChunks<
   Uint8Array<ArrayBufferLike>
 > {
-  try {
-    const chunksStreamArr: Uint8Array<ArrayBufferLike>[] = [];
+  const chunksStreamArr: Uint8Array<ArrayBufferLike>[] = [];
 
-    const cliProcess = spawn(TURBO_LIST, {
-      stdio: ["overlapped", "pipe", "pipe"],
-      shell: true,
-    });
-    cliProcess.stdout.on("data", (chunks) => {
-      chunksStreamArr.push(chunks);
-    });
+  const cliProcess = spawn(TURBO_LIST, {
+    stdio: ["overlapped", "pipe", "pipe"],
+    shell: true,
+  });
+  cliProcess.stdout.on("data", (chunks) => {
+    chunksStreamArr.push(chunks);
+  });
 
-    cliProcess.stderr.on("error", (error) => {
-      colorConsole(`This error appear on process: ${error}`, "error");
-    });
+  cliProcess.stderr.on("error", (error) => {
+    new SubProcessError(`Error on child process: ${error}`);
+  });
 
-    return { cliProcess, chunksStreamArr };
-  } catch (error) {
-    throw new SubProcessError(`Error on child process: ${error}`);
-  }
+  return { cliProcess, chunksStreamArr };
 }

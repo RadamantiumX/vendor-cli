@@ -36,7 +36,7 @@ const mockedChunkBufferThrow: Uint8Array<ArrayBufferLike>[] = [
   new TextEncoder().encode(JSON.stringify(toMockedObjectThrow)),
 ];
 
-const wsMockedReturn = [
+export const wsMockedReturn = [
   {
     name: "api | loader\\api",
     value: ["api"],

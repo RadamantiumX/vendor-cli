@@ -89,7 +89,7 @@ describe("turboCliProcess", () => {
     (spawn as any).mockReturnValue(mockChildProcess);
   });
 
-  it("Should execute the Turbo CLI and return the string to collect into chunks", () => {
+  it("Should execute the Turbo CLI and return the string to collect on chunks", () => {
     const turboCliTest = turboCliProcess();
 
     expect(spawn).toHaveBeenCalledWith(TURBO_LIST, {

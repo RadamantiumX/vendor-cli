@@ -11,7 +11,7 @@ import {
   initialChoices,
   filterOptionsChoices,
 } from "./prompts/inq-config";
-import { PromptError, DefaultError, SubProcessError } from "./utils/errors";
+import { SubProcessError } from "./utils/errors";
 import { PROMPT_MESSAGES } from "./utils/constants";
 
 import type {
@@ -21,6 +21,7 @@ import type {
   Choices,
   UnknowError,
 } from "./types/index";
+import { ZodError } from "zod";
 
 // Using the main child event process
 const { cliProcess, chunksStreamArr } = turboCliProcess();
@@ -28,7 +29,10 @@ const { cliProcess, chunksStreamArr } = turboCliProcess();
 // The listerner only takes the values returned from the cli turbo ls
 cliProcess?.on("close", vendorCli);
 
-const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
+export const installerProcedure = async (
+  ws: Choices[],
+  packageManager: PkgMng,
+) => {
   const inputPkg = await input({
     message: PROMPT_MESSAGES.INPUT_PKG,
   });
@@ -37,10 +41,6 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
     inputPkg.split(" "),
     filterOptionsChoices(packageManager),
   );
-
-  if (!pkgChoices || !devChoices) {
-    throw new PromptError();
-  }
 
   const workspaceQuiz = await checkbox({
     message: PROMPT_MESSAGES.WORKSPACE_QUIZ,
@@ -78,11 +78,6 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
     packageManager,
   );
 
-  // The command must be ready and assembled
-  if (!stmtBuild) {
-    throw new DefaultError("The current statement is malformed.");
-  }
-
   // Runs the command without blocks the main process
   await asyncExeComand(stmtBuild)
     .then(() => {
@@ -101,20 +96,12 @@ const installerProcedure = async (ws: Choices[], packageManager: PkgMng) => {
   return;
 };
 
-// TODO: Only test
-
-/**
- * TODO: listing dependencies on workspaces
- * npm: npm ls --workspaces --> All workspaces ||  npm ls --workspace=<name of workspace> --> Single workspace
- * pnpm: pnpm list -r --> All workspace || pnpm --filter <nombre-del-paquete> list --> Single
- * yarn: yarn workspaces list --> All Workspaces || yarn workspaces list --verbose --json --> Crossing || yarn info <nombre-del-paquete> --> Single package
- */
-const listingProcedure = () => {
+export const listingProcedure = () => {
   colorConsole("Here is the listing...", "default");
   return;
 };
 
-type StreamExitCode<T> = T | unknown;
+export type StreamExitCode<T> = T | unknown;
 
 /**
  * This callback will run when the listener receive the "data" event, another child event is triggered
@@ -124,20 +111,20 @@ type StreamExitCode<T> = T | unknown;
 export async function vendorCli(code: StreamExitCode<number>): Promise<void> {
   try {
     if (code !== 0) {
-      throw new SubProcessError();
+      throw new SubProcessError("Unexpected fail!");
     }
     await signature();
 
+    // Chunks decoded and splited in checkbox choices and package manager array
     const { wsAvailable, packageManager } =
       await handleStreamChunks(chunksStreamArr);
-    if (!wsAvailable || !packageManager) {
-      throw new DefaultError();
-    }
+
+    // Initial selection, install package or list all dependencies (last one disabled for the moment)
     const initialSelect = await select({
       message: PROMPT_MESSAGES.INITIAL_SELECT,
       choices: initialChoices,
     });
-
+    // Selection answers conditional
     if (initialSelect === "install") {
       await installerProcedure(wsAvailable, packageManager);
     } else if (initialSelect === "list") {
@@ -152,6 +139,10 @@ export async function vendorCli(code: StreamExitCode<number>): Promise<void> {
       error?.toString().includes("AbortError")
     ) {
       colorConsole("Bye bye 👋", "exit");
+      return;
+    }
+    if (error instanceof ZodError) {
+      colorConsole(`Validations fail: ${error}`, "error");
       return;
     }
     colorConsole(`${error}`, "error");
