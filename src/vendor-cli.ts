@@ -2,7 +2,7 @@ import { turboCliProcess, asyncExeComand } from "./spawn";
 import { colorConsole } from "./console/colors";
 import { handleStreamChunks } from "./stream-chunks";
 import { cliStatementBuilder } from "./stmt-resolver";
-import signature from "./console/ansii-art";
+import { signature } from "./console/ansii-art";
 import { checkbox, input, select, Separator } from "@inquirer/prompts";
 import customConfirm from "./prompts/custom-inquirer";
 import {
