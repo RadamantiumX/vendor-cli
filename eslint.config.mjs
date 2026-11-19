@@ -28,3 +28,17 @@ export default defineConfig(
   ]),
   
 );
+/**
+ *
+# For a patch release (bug fixes)
+npm version patch
+git push origin master --tags
+
+# For a minor release (new features)
+npm version minor
+git push origin master --tags
+
+# For a major release (breaking changes)
+npm version major
+git push origin master --ta
+ */
