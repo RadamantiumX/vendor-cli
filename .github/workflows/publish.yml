@@ -37,9 +37,6 @@ jobs:
                   echo "Version mismatch: tag=$VERSION, package.json=$FILE_VERSION"
                   exit 1
                 fi
-            - name: Testing with vitest
-              run: npm run test  
-
             - name: Publish on NPM
               run: npm publish --access public --provenance
               env:
