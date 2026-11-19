@@ -95,7 +95,7 @@ export async function cliStatementBuilder(
         break;
       case "pnpm":
         stm.push(
-          `pnpm add${normalized.opts[pkg] ? normalized.opts[pkg].flat().join(" ") : ""} ${pkg.toString()} ${normalized?.ws[
+          `pnpm add ${normalized.opts[pkg] ? normalized.opts[pkg].flat().join(" ") : ""} ${pkg.toString()} ${normalized?.ws[
             pkg
           ]
             ?.flat()

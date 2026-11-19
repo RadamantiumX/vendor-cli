@@ -1,27 +1,46 @@
-# name: Publish
-# on:
-#     push:
-#         branches: ["main"]
+name: Publish package
 
-# concurrency: ${{ github.workflow }}-${{ github.ref }}
+on:
+    push:
+        tags:
+            - 'v*'
 
-# permissions:
-#     contents: write
-#     pull-requests: write
-#     packages: write
-#     id-token: write
-
-# jobs:
-#     publish:
-#         runs-on: ubuntu-latest
-#         steps:
-#             - uses: actions/checkout@v4
-#             - uses: actions/setup-node@v4
-#               with:
-#                 node-version: "lts/*"
-#             - run: npm ci
-#             - name: Create Release Pull Request or Publish
-#               id: changesets
-#               uses: changesets/action@v1   
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            id-token: write
             
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 22    
+                registry-url: 'https://registry.npmjs.org'
 
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run package build
+              run: npm run build
+
+            - name: Verify version matches tag
+              run: |
+                TAG="${GITHUB_REF#refs/tags/}"
+                VERSION="${TAG#v}"
+                FILE_VERSION=$(node -p "require('./package.json').version")
+                if ["$VERSION" != "$FILE_VERSION"]; then
+                  echo "Version mismatch: tag=$VERSION, package.json=$FILE_VERSION"
+                  exit 1
+                fi
+            - name: Testing with vitest
+              run: npm run test  
+
+            - name: Publish on NPM
+              run: npm publish --access public --provenance
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

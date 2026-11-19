@@ -1,7 +1,7 @@
 {
-  "name": "vendor-cli",
+  "name": "@complements/vendor-cli",
   "version": "1.0.0",
-  "description": "This a public library for manage the package installing on monorepos.",
+  "description": "This a public library to manage the package installation.",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
