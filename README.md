@@ -67,6 +67,13 @@ Follow the on-screen prompts to:
 
 Contributions, issues, and feature requests are welcome! Feel free to check the issues page or submit a pull request.
 
+## 💖 Support Me
+
+If you find this project useful, please consider supporting my work!
+
+[![Ko-fi](https://shields.io)](https://ko-fi.com/radamantium)
+[![PayPal](https://shields.io)](https://paypal.me/radamantium)
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
