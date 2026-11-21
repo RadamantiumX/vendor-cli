@@ -17,13 +17,13 @@ Install `vendor-cli` as a development dependency at the root of your Turborepo p
 
 ```bash
 # Using npm
-npm install -D vendor-cli
+npm install -D @complements/vendor-cli
 
 # Using yarn
-yarn add -D -W vendor-cli
+yarn add -D -W @complements/vendor-cli
 
 # Using pnpm
-pnpm add -D -w vendor-cli
+pnpm add -D -w @complements/vendor-cli
 ```
 
 ## ⚙️ Setup
