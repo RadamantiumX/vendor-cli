@@ -38,7 +38,7 @@
     "vercel"
   ],
   "author": "RadamantiumX",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "bugs": {
     "url": "https://github.com/RadamantiumX/vendor-cli/issues"
