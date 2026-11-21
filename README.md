@@ -1,6 +1,6 @@
 # vendor-cli
 
-[![npm version](https://img.shields.io/npm/v/vendor-cli.svg)](https://www.npmjs.com/package/vendor-cli)
+[![npm version](https://img.shields.io/npm/v/vendor-cli.svg)](https://www.npmjs.com/package/@complements/vendor-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An easy-to-use CLI tool for installing packages, dependencies, and libraries across your **Turborepo** workspaces. `vendor-cli` automatically detects all existing workflows and workspaces within your current Turborepo project, providing an interactive console prompt to manage installations effortlessly.
