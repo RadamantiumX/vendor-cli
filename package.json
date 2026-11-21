@@ -1,6 +1,6 @@
 {
   "name": "@complements/vendor-cli",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "This a public library to manage the package installation.",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
