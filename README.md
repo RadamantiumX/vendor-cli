@@ -38,7 +38,7 @@ To execute the CLI prompts in your console, add a script entry to the `"scripts"
     "vendor": "vendor-cli"
   },
   "devDependencies": {
-    "vendor-cli": "latest"
+    "@complements/vendor-cli": "latest"
   }
 }
 ```
