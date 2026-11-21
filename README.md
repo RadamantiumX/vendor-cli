@@ -1,38 +1,72 @@
-# Turbo Shell
+# vendor-cli
 
-## Installation
+[![npm version](https://img.shields.io/npm/v/vendor-cli.svg)](https://www.npmjs.com/package/vendor-cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+An easy-to-use CLI tool for installing packages, dependencies, and libraries across your **Turborepo** workspaces. `vendor-cli` automatically detects all existing workflows and workspaces within your current Turborepo project, providing an interactive console prompt to manage installations effortlessly.
+
+## ✨ Features
+
+- **Automatic Workspace Detection**: Scans and detects all existing workflows/workspaces in your Turborepo monorepo.
+- **Interactive CLI Prompts**: Intuitive terminal interface to select target workspaces and packages.
+- **Streamlined Dependency Management**: Install packages and libraries without manually typing long workspace filter flags.
+
+## 📦 Installation
+
+Install `vendor-cli` as a development dependency at the root of your Turborepo project:
 
 ```bash
-npm i
+# Using npm
+npm install -D vendor-cli
+
+# Using yarn
+yarn add -D -W vendor-cli
+
+# Using pnpm
+pnpm add -D -w vendor-cli
 ```
 
-## Context
+## ⚙️ Setup
 
-Working with Monorepo (like _Turborepo_), it's a gratificant experience. The code sharing and the unified dependencies management can boost the team productivity. The Backend and the Client in the same folder looks very easy to integrate any change and see what happen in the other side. Thus, this isn't a improve for that, it's only a simply wat to install dependencies and avoid (sometimes) the large CLI sentences.
-
-## Usage
-
-After install ***Turbo Shell***, update your ***package.json***, on the scripts property:
+To execute the CLI prompts in your console, add a script entry to the `"scripts"` property in your root `package.json` file:
 
 ```json
-"scripts":{
-  "pkg": "turbo-shell"
+{
+  "name": "my-turborepo",
+  "private": true,
+  "scripts": {
+    "vendor": "vendor-cli"
+  },
+  "devDependencies": {
+    "vendor-cli": "latest"
+  }
 }
 ```
 
-Run in the terminal the ***Turbo shell*** CLI:
+## 🚀 Usage
+
+Once configured in your `package.json`, run the script from your terminal to launch the interactive prompts:
 
 ```bash
-npm run pkg
+# Using npm
+npm run vendor
+
+# Using yarn
+yarn vendor
+
+# Using pnpm
+pnpm vendor
 ```
-The interface proceed to ask five question:
 
-- The workspace folder to install the required dependency. ***Turbo shell***  will detect all workspaces on your mono-repo.
-- The package manager (***npm, pnpm or yarn***).
-- The current dependency/es to install (only the name, eg: ***tsup***).
-- If it's a ***Dev*** dependency (yes or no). For the moment, split the dev and prod dependencies in different prompts.
-- The final confirmation to install.
+Follow the on-screen prompts to:
+1. Select the detected Turborepo workspace(s) / workflow(s).
+2. Enter the package(s) or dependencies you want to install.
+3. Confirm and let `vendor-cli` handle the installation.
 
-## Licence
+## 🤝 Contributing
 
-***Turbo repo*** is copyright (c) 2026 - Eduardo Arede.
+Contributions, issues, and feature requests are welcome! Feel free to check the issues page or submit a pull request.
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
