@@ -1,6 +1,6 @@
 # vendor-cli
 
-[![npm version](https://img.shields.io/npm/v/vendor-cli.svg)](https://www.npmjs.com/package/@complements/vendor-cli)
+[![npm version](https://img.shields.io/npm/v/@complements/vendor-cli.svg)](https://img.shields.io/npm/v/@complements/vendor-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An easy-to-use CLI tool for installing packages, dependencies, and libraries across your **Turborepo** workspaces. `vendor-cli` automatically detects all existing workflows and workspaces within your current Turborepo project, providing an interactive console prompt to manage installations effortlessly.
@@ -58,10 +58,25 @@ yarn vendor
 pnpm vendor
 ```
 
+![Intro CLI](public\asset-image-1.png)
+
 Follow the on-screen prompts to:
-1. Select the detected Turborepo workspace(s) / workflow(s).
-2. Enter the package(s) or dependencies you want to install.
-3. Confirm and let `vendor-cli` handle the installation.
+
+Enter the package(s) or dependencies you want to install.
+
+![Package input](public/asset-image-2.png)
+
+Select the detected Turborepo workspace(s) / workflow(s). Each package must be have a *workspace* checked at least.
+
+![WS selections](public/asset-image-3.png)
+
+Add CLI flag options (optional).
+
+![Flag selections](public/asset-image-4.png)
+
+Confirm and let `vendor-cli` handle the installation.
+
+![Final Confirmation](public/asset-image-5.png)
 
 ## 🤝 Contributing
 
@@ -71,8 +86,8 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 If you find this project useful, please consider supporting my work!
 
-[![Ko-fi](https://shields.io)](https://ko-fi.com/radamantium)
-[![PayPal](https://shields.io)](https://paypal.me/radamantium)
+[![Ko-fi](https://storage.ko-fi.com/cdn/brandasset/v2/support_me_on_kofi_beige.png?_gl=1*iwyqb9*_gcl_au*MTM0NDkxNDA3Ni4xNzk1MjQzOTM1*_ga*MTUwMjg2Njk3MS4xNzk1MjQzOTM1*_ga_M13FZ7VQ2C*czE3OTUyOTM3MjMkbzMkZzEkdDE3OTUyOTM4NjckajYwJGwwJGgw?size=sm)](https://ko-fi.com/radamantium)
+[![PayPal](public/paypal-com-logo.png)](https://paypal.me/radamantium)
 
 ## 📄 License
 
