@@ -88,6 +88,7 @@ If you find this project useful, please consider supporting my work!
 
 [![Ko-fi](https://storage.ko-fi.com/cdn/brandasset/v2/support_me_on_kofi_beige.png?_gl=1*iwyqb9*_gcl_au*MTM0NDkxNDA3Ni4xNzk1MjQzOTM1*_ga*MTUwMjg2Njk3MS4xNzk1MjQzOTM1*_ga_M13FZ7VQ2C*czE3OTUyOTM3MjMkbzMkZzEkdDE3OTUyOTM4NjckajYwJGwwJGgw?size=sm)](https://ko-fi.com/radamantium)
 [![PayPal](public/paypal-com-logo.png)](https://paypal.me/radamantium)
+[![Patreon](public/patreon-com-brandmark.svg)](https://www.patreon.com/17178164/join)
 
 ## 📄 License
 
