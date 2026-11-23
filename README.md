@@ -58,7 +58,7 @@ yarn vendor
 pnpm vendor
 ```
 
-![Intro CLI](public\asset-image-1.png)
+![Intro CLI](public/asset-image-1.png)
 
 Follow the on-screen prompts to:
 
