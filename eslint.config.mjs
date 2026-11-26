@@ -28,6 +28,8 @@ export default defineConfig(
   ]),
   
 );
+
+// Uses logger: https://medium.com/@himanshu.pant415/9ef532355a2d
 /**
  *
 # For a patch release (bug fixes)

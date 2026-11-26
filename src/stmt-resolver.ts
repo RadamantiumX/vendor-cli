@@ -58,6 +58,7 @@ export function groupingConfigNormalized(
   return loopingNormalizedObject(groupingByWs, groupingByOpts);
 }
 
+// TODO: change from chained "&" to multiple (space separated) if the options flags it's the same.
 /**
  * Assembled cli statement to be used in spawn node child process. It's conditional by the package manager.
  * @param rawWsAnswersArr Checkbox returned answers from Workspaces
